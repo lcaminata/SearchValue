@@ -1,0 +1,89 @@
+
+/** *******************************************************************
+ * Purpose/Description: <This program will search for the user's input and search
+ * the input inside of the declared array. The runtime is log(n).>
+ * Certification: I hereby certify that this work is my own and none of it is
+ * the work of any other person.
+ * ******************************************************************
+ */
+import java.util.Scanner; //imports the class that allows a user to input data.
+
+public class Problem1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        int elements[] = {1, 3, 5, 7, 9, 6, 3, 0, -3};
+        System.out.println("Select an integer value you for the program to search"
+                + " for inside the array of elements.");
+        int userInteger = inputValidation();
+        if (searchValue(elements, userInteger)) {
+            System.out.println(userInteger + " was found in the array.");
+        } else {
+            System.out.println(userInteger + " was not found in the array.");
+        }
+    }
+
+    /**
+     * This method will find the index where the array elements stop rising in
+     * value and declare that as the middle of the array, from there two loops
+     * will search for the user's input, one from the left of the middle and the
+     * other from the right
+     *
+     * @param searchArray is the array from the main method.
+     * @param search is the integer from the main method that the user input.
+     * @return
+     */
+    public static boolean searchValue(int searchArray[], int search) {
+        final int ADD_SUBTRACT = 1;
+        int loopCountOne = 1, loopCountTwo = 0;
+        Boolean found = false;
+        int middle = 0;
+        while (loopCountOne < searchArray.length) {
+            if (searchArray[loopCountOne - ADD_SUBTRACT] < searchArray[loopCountOne]
+                    && searchArray[loopCountOne] > searchArray[loopCountOne + ADD_SUBTRACT]) {
+                middle = searchArray[loopCountOne];
+            }
+            loopCountOne++;
+        }
+        while (loopCountTwo < middle) {
+            if (searchArray[loopCountTwo] == search) {
+                found = true;
+            }
+            loopCountTwo++;
+        }
+        int loopCountThree = searchArray.length - ADD_SUBTRACT;
+        while (loopCountThree > middle) {
+            if (searchArray[loopCountThree] == search) {
+                found = true;
+            }
+            loopCountThree--;
+        }
+        return found;
+    }
+
+    /**
+     * This program will make sure the program does not crash if the user does
+     * not input an integer.
+     *
+     * @return the user's integer.
+     */
+    public static int inputValidation() {
+        Scanner input = new Scanner(System.in);
+        final int LIMIT = 1;
+        int count = 0;
+        int value = 0;
+        while (count < LIMIT) {
+            if (!(input.hasNextInt())) {
+                input.next();
+                System.out.println("Your input was not recognized as an integer, "
+                        + "please input an integer value.");
+            } else {
+                value = input.nextInt();
+                count++;
+            }
+        }
+        return value;
+    }
+}
